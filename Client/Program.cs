@@ -1,4 +1,5 @@
-﻿using Grpc.Net.Client;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
 using Server;
 
 namespace Client
@@ -22,7 +23,8 @@ namespace Client
 
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new Customer.CustomerClient(channel);
-
+            
+            /// Get Customer Info
             Console.Out.WriteLine("Enter Customer Id:");
             int id = Convert.ToInt32(Console.ReadLine());
 
@@ -31,8 +33,22 @@ namespace Client
 
             Console.Out.WriteLine($"Customer# {response.Id}: {response.FirstName} {response.LastName}");
 
+            
+            /// Get New Customers
+            Console.Out.WriteLine("-----------------------------------------------");
+            Console.Out.WriteLine("Get New Customers:");
 
-            Console.Out.WriteLine("Press any key to exit");
+            using (var call = client.GetNewCustomer(new NewCustomerRequest()))
+            {
+                while(await call.ResponseStream.MoveNext())
+                {
+                    var customer = call.ResponseStream.Current;
+                    Console.Out.WriteLine($"Customer# {customer.Id}: {customer.FirstName} {customer.LastName}, Email: {customer.Email}");
+                }
+            }
+
+            Console.Out.WriteLine();
+            Console.Out.WriteLine("Press any key to exit...");
             Console.ReadLine();
         }
     }

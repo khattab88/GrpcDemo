@@ -29,5 +29,17 @@ namespace Server.Services
 
             return Task.FromResult(customer);
         }
+
+        public override async Task GetNewCustomer(
+            NewCustomerRequest request, 
+            IServerStreamWriter<CustomerModel> responseStream, 
+            ServerCallContext context)
+        {
+            foreach (var customer in customers)
+            {
+                await Task.Delay(2000);
+                await responseStream.WriteAsync(customer);
+            }
+        }
     }
 }
