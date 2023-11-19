@@ -7,13 +7,19 @@ namespace Client
     {
         static async Task Main(string[] args)
         {
-            var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var client = new Greeter.GreeterClient(channel);
+            #region Basic Service
 
-            var request = new HelloRequest { Name = "gRPC Demo" };
-            var response = await client.SayHelloAsync(request);
+            //var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            //var client = new Greeter.GreeterClient(channel);
 
-            Console.Out.WriteLine(response.Message);
+            //var request = new HelloRequest { Name = "gRPC Demo" };
+            //var response = await client.SayHelloAsync(request);
+
+            //Console.Out.WriteLine(response.Message);
+
+            #endregion
+
+
 
             Console.ReadLine();
         }
