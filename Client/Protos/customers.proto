@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "Server";
+
+service Customer{
+	rpc GetCustomerInfo (CustomerLookupModel) returns (CustomerModel);
+}
+
+message CustomerLookupModel{
+	int32 userId = 1;
+}
+
+message CustomerModel{
+	int32 id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	string email = 4;
+	bool isActive = 5;
+	int32 age = 6;
+}
+
+
